@@ -386,6 +386,15 @@ button { cursor: pointer; }
 }
 .hero-stat b { display: block; color: var(--g7); font-size: 34px; line-height: 1; }
 .hero-stat span { color: var(--slate); font-size: 13px; font-weight: 700; }
+.hero-note-card b {
+  font-size: 20px;
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+.hero-note-card span {
+  display: block;
+  line-height: 1.6;
+}
 
 .kpi-grid, .reading-grid {
   display: grid;
@@ -891,6 +900,9 @@ td small { display: block; color: var(--slate); margin-top: 4px; }
   }
   .hero-stat b {
     font-size: 30px;
+  }
+  .hero-note-card b {
+    font-size: 18px;
   }
   .topbar {
     padding: 0 12px;

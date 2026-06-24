@@ -69,14 +69,13 @@ function topMonth() {
 }
 
 function setHero() {
-  const month = topMonth();
   document.getElementById("heroBg").style.backgroundImage = "";
   document.getElementById("heroStats").innerHTML = [
-    ["البرامج والأنشطة", data.totals?.activities || data.totals?.posts || 0],
-    ["المجالات", data.totals?.categories || 0],
-    ["الفئات المستهدفة", data.totals?.targets || 0],
-    [`أعلى شهر: ${month.shortName || month.name}`, month.count],
-  ].map(([label, value]) => `<div class="hero-stat"><b data-count="${value}">0</b><span>${label}</span></div>`).join("");
+    ["مدخل تنفيذي", "يعرض التقرير الصورة العامة أولًا."],
+    ["مؤشرات ورسوم", "تظهر الأرقام في صفحات التحليل."],
+    ["فصول واضحة", "انتقال مرتب بين الغلاف والتحليل والتفاصيل."],
+    ["قائمة تفصيلية", "بحث وتصفية للبرامج والأنشطة."],
+  ].map(([label, text]) => `<div class="hero-stat hero-note-card"><b>${label}</b><span>${text}</span></div>`).join("");
 }
 
 function buildNav() {
@@ -131,12 +130,12 @@ function buildNumberReading() {
   const topTarget = data.targets?.[0] || { name: "-", count: 0 };
   const month = topMonth();
   const cards = [
-    { title: "حجم النشاط", value: total, number: total, text: "إجمالي البرامج والأنشطة التي يعرضها التقرير." },
-    { title: "المجالات", value: data.totals?.categories || 0, number: data.totals?.categories || 0, text: "تنوع واضح في مجالات البرامج والأنشطة المقدمة." },
-    { title: "الفئات المستهدفة", value: data.totals?.targets || 0, number: data.totals?.targets || 0, text: "اتساع نطاق الاستفادة بين أكثر من فئة مستهدفة." },
-    { title: "الفترة الزمنية", value: `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`, number: "", text: "النطاق الزمني الذي يغطيه التقرير." },
-    { title: "أعلى مجال حضورًا", value: categoryName(topCategory.name), number: topCategory.count, text: `برزت ${categoryName(topCategory.name)} بوصفها المجال الأكثر حضورًا.` },
-    { title: "أعلى شهر نشاطًا", value: month.name, number: month.count, text: "يمثل أعلى نقطة في كثافة البرامج والأنشطة خلال الفترة." },
+    { title: "أكثر مسارين حضورًا", value: `${categoryName(topCategory.name)} و${categoryName(secondCategory.name)}`, number: "", text: `يتصدران المشهد بعدد ${numberText(topCategory.count)} و${numberText(secondCategory.count)}.` },
+    { title: "مسارات تالية", value: `${categoryName(thirdCategory.name)} ثم ${categoryName(fourthCategory.name)}`, number: "", text: `حضورهما يأتي بعد المسارين الأعلى بعدد ${numberText(thirdCategory.count)} و${numberText(fourthCategory.count)}.` },
+    { title: "الفئة الأبرز", value: topTarget.name, number: topTarget.count, text: "الفئة التي ظهر لها النصيب الأكبر من البرامج والأنشطة." },
+    { title: "ذروة النشاط", value: month.name, number: month.count, text: "الشهر الأعلى في كثافة البرامج والأنشطة." },
+    { title: "الفترة الزمنية", value: `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`, number: "", text: "النطاق الذي يغطيه التقرير." },
+    { title: "طريقة العرض", value: "بدون تكرار", number: "", text: "يعرض كل برنامج أو نشاط مرة واحدة في القائمة والمؤشرات." },
   ];
   document.getElementById("readingGrid").innerHTML = cards.map((card) => `
     <article class="reading-card">
@@ -156,6 +155,7 @@ function buildNumberReading() {
     ["فترة التقرير", "العام 1447هـ"],
     ["نطاق التاريخ", `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`],
     ["المجالات", data.totals?.categories || 0],
+    ["التكرار المستبعد", data.totals?.duplicatesExcluded || 0],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><b>${numberText(value)}</b></div>`).join("");
 }
 
