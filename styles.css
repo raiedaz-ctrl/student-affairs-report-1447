@@ -50,6 +50,11 @@ button { cursor: pointer; }
   transition: width .35s ease, opacity .35s ease;
   z-index: 50;
 }
+.rail[data-open="0"] {
+  width: 0;
+  opacity: 0;
+  overflow: hidden;
+}
 .brand {
   display: flex;
   gap: 13px;
@@ -725,15 +730,62 @@ td small { display: block; color: var(--slate); margin-top: 4px; }
     top: 60px;
     right: 0;
     bottom: 0;
+    width: min(86vw, 292px);
+    opacity: 1;
+    transform: translateX(0);
+    transition: transform .35s ease, opacity .35s ease;
     box-shadow: -10px 0 34px rgba(6,53,28,.28);
   }
+  .rail[data-open="0"] {
+    width: min(86vw, 292px);
+    opacity: 0;
+    transform: translateX(110%);
+    pointer-events: none;
+  }
   .slide { padding: 26px 18px 30px; }
-  .hero-content { padding: 60px 24px 230px; }
-  .hero h1 { font-size: 40px; }
+  .hero {
+    min-height: auto;
+    justify-content: flex-start;
+    padding: 34px 18px 24px;
+    overflow: auto;
+  }
+  .hero-content {
+    padding: 0;
+    max-width: none;
+  }
+  .hero-kicker {
+    font-size: 13px;
+    padding: 7px 12px;
+  }
+  .hero h1 {
+    font-size: 38px;
+    margin: 18px 0 14px;
+  }
+  .hero p {
+    font-size: 18px;
+    line-height: 1.75;
+    margin-bottom: 22px;
+    color: #f4fff7;
+  }
   .hero-stats, .kpi-grid, .reading-grid, .mini-grid, .split, .table-tools, .analysis-layout {
     grid-template-columns: 1fr;
   }
-  .hero-stats { right: 18px; left: 18px; bottom: 18px; }
+  .hero-stats {
+    position: relative;
+    z-index: 3;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    margin-top: 10px;
+    gap: 10px;
+  }
+  .hero-stat {
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .hero-stat b {
+    font-size: 30px;
+  }
   .chart-panel { min-height: 360px; }
   .month-row {
     grid-template-columns: 82px minmax(0, 1fr) 42px;

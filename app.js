@@ -68,12 +68,13 @@ function topMonth() {
 }
 
 function setHero() {
+  const month = topMonth();
   document.getElementById("heroBg").style.backgroundImage = "";
   document.getElementById("heroStats").innerHTML = [
     ["البرامج والأنشطة", data.totals?.activities || data.totals?.posts || 0],
-    ["مجالات النشاط", data.totals?.categories || 0],
+    ["المجالات", data.totals?.categories || 0],
     ["الفئات المستهدفة", data.totals?.targets || 0],
-    ["أيام النشر", data.totals?.uniqueDays || 0],
+    [`أعلى شهر: ${month.shortName || month.name}`, month.count],
   ].map(([label, value]) => `<div class="hero-stat"><b data-count="${value}">0</b><span>${label}</span></div>`).join("");
 }
 
@@ -87,7 +88,12 @@ function buildNav() {
   `).join("");
   nav.addEventListener("click", (event) => {
     const button = event.target.closest("[data-go]");
-    if (button) go(Number(button.dataset.go));
+    if (button) {
+      go(Number(button.dataset.go));
+      if (window.matchMedia("(max-width: 980px)").matches) {
+        document.getElementById("rail").dataset.open = "0";
+      }
+    }
   });
 }
 
@@ -100,7 +106,7 @@ function buildKpis() {
     [`أعلى مجال: ${categoryName(topCategory.name)}`, topCategory.count, `${percent(topCategory.count, total)} من إجمالي البرامج والأنشطة.`],
     [`الفئة الأكثر استهدافًا: ${topTarget.name}`, topTarget.count, `${percent(topTarget.count, total)} من إجمالي البرامج والأنشطة.`],
     [`أعلى شهر: ${month.shortName || month.name}`, month.count, "ذروة النشاط الظاهرة في التوزيع الزمني للتقرير."],
-    ["أيام النشر", data.totals?.uniqueDays || 0, "عدد الأيام التي ظهر فيها نشاط موثق ضمن فترة التقرير."],
+    ["الفئات المستهدفة", data.totals?.targets || 0, "عدد الفئات التي شملتها البرامج والأنشطة."],
   ];
   document.getElementById("kpiGrid").innerHTML = kpis.map(([label, value, note]) => {
     const isNumber = Number.isInteger(value);
@@ -120,9 +126,9 @@ function buildNumberReading() {
   const month = topMonth();
   const cards = [
     { title: "حجم النشاط", value: total, number: total, text: "إجمالي البرامج والأنشطة التي يعرضها التقرير." },
-    { title: "مجالات النشاط", value: data.totals?.categories || 0, number: data.totals?.categories || 0, text: "تنوع واضح في مجالات البرامج والأنشطة المقدمة." },
+    { title: "المجالات", value: data.totals?.categories || 0, number: data.totals?.categories || 0, text: "تنوع واضح في مجالات البرامج والأنشطة المقدمة." },
     { title: "الفئات المستهدفة", value: data.totals?.targets || 0, number: data.totals?.targets || 0, text: "اتساع نطاق الاستفادة بين أكثر من فئة مستهدفة." },
-    { title: "أيام النشر", value: data.totals?.uniqueDays || 0, number: data.totals?.uniqueDays || 0, text: "عدد الأيام التي ظهر فيها نشاط ضمن فترة التقرير." },
+    { title: "الفترة الزمنية", value: `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`, number: "", text: "النطاق الزمني الذي يغطيه التقرير." },
     { title: "أعلى مجال حضورًا", value: categoryName(topCategory.name), number: topCategory.count, text: `برزت ${categoryName(topCategory.name)} بوصفها المجال الأكثر حضورًا.` },
     { title: "أعلى شهر نشاطًا", value: month.name, number: month.count, text: "يمثل أعلى نقطة في كثافة البرامج والأنشطة خلال الفترة." },
   ];
@@ -143,8 +149,7 @@ function buildNumberReading() {
   document.getElementById("sourceChecks").innerHTML = [
     ["فترة التقرير", "العام 1447هـ"],
     ["نطاق التاريخ", `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`],
-    ["أيام النشر الفريدة", data.totals?.uniqueDays || 0],
-    ["مجالات النشاط", data.totals?.categories || 0],
+    ["المجالات", data.totals?.categories || 0],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><b>${numberText(value)}</b></div>`).join("");
 }
 
@@ -155,7 +160,7 @@ function buildBars() {
   const total = data.totals?.displayedRecords || 0;
   document.getElementById("categoryBars").innerHTML = `
     <div class="panel-title">
-      <span>قراءة مجالات النشاط</span>
+      <span>قراءة المجالات</span>
       <b>${fmt.format(categories.length)} مجالًا</b>
     </div>
     <div class="focus-card">
@@ -219,7 +224,7 @@ function buildMonths() {
 function buildTableTools() {
   const categorySelect = document.getElementById("categoryFilter");
   const targetSelect = document.getElementById("targetFilter");
-  categorySelect.innerHTML = `<option value="">كل مجالات النشاط</option>` + (data.categories || [])
+  categorySelect.innerHTML = `<option value="">كل المجالات</option>` + (data.categories || [])
     .map((item) => `<option value="${escapeHtml(item.name)}">${escapeHtml(categoryName(item.name))}</option>`).join("");
   targetSelect.innerHTML = `<option value="">كل الفئات</option>` + (data.targets || [])
     .map((item) => `<option value="${escapeHtml(item.name)}">${escapeHtml(item.name)}</option>`).join("");
@@ -310,7 +315,7 @@ function buildClosingReading() {
   const topCategory = data.categories?.[0] || { name: "-", count: 0 };
   const secondCategory = data.categories?.[1] || { name: "-", count: 0 };
   document.getElementById("closingReading").textContent =
-    `يعرض هذا التقرير صورة مختصرة عن برامج وأنشطة عمادة شؤون الطلاب خلال عام 1447هـ. توضح الأرقام حجم ما تم تنفيذه، وتبين أكثر مجالات النشاط حضورًا، والفئات المستهدفة، وتوزيع البرامج والأنشطة خلال أشهر العام. ومن خلال المؤشرات والرسوم وقائمة البرامج، يستطيع القارئ تكوين فكرة واضحة وسريعة عن طبيعة الأنشطة وما برز منها خلال العام.`;
+    `يعرض هذا التقرير صورة مختصرة عن برامج وأنشطة عمادة شؤون الطلاب خلال عام 1447هـ. توضح الأرقام حجم ما تم تنفيذه، وتبين أكثر المجالات حضورًا، والفئات المستهدفة، وتوزيع البرامج والأنشطة خلال أشهر العام. ومن خلال المؤشرات والرسوم وقائمة البرامج، يستطيع القارئ تكوين فكرة واضحة وسريعة عن طبيعة الأنشطة وما برز منها خلال العام.`;
 }
 
 function animateNumbers(scope) {
@@ -380,12 +385,13 @@ function setupControls() {
   document.getElementById("prevBtn").addEventListener("click", () => go(active - 1));
   document.getElementById("nextBtn").addEventListener("click", () => go(active + 1));
   document.getElementById("startBtn").addEventListener("click", () => go(1));
+  const rail = document.getElementById("rail");
+  if (window.matchMedia("(max-width: 980px)").matches) {
+    rail.dataset.open = "0";
+  }
   document.getElementById("railToggle").addEventListener("click", () => {
-    const rail = document.getElementById("rail");
     const open = rail.dataset.open !== "0";
     rail.dataset.open = open ? "0" : "1";
-    rail.style.width = open ? "0" : "292px";
-    rail.style.opacity = open ? "0" : "1";
   });
   window.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft" || event.key === "PageDown") go(active + 1);
