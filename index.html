@@ -27,15 +27,25 @@
 
     <main class="main">
       <header class="topbar">
-        <button id="railToggle" class="icon-button" aria-label="فتح وإغلاق القائمة">☰</button>
-        <div>
+        <div class="topbar-brand">
+          <button id="railToggle" class="icon-button" aria-label="فتح وإغلاق القائمة">☰</button>
+          <div class="topbar-logo">
+            <span class="brand-fallback" aria-hidden="true">KAU</span>
+          </div>
+          <div class="topbar-title">
+            <b>جامعة الملك عبدالعزيز</b>
+            <span>عمادة شؤون الطلاب</span>
+          </div>
+        </div>
+        <div class="topbar-report">
+          <span id="chapterName" class="chapter-name"></span>
           <span id="sectionName" class="section-name"></span>
-          <b>التقرير السنوي التفاعلي</b>
+          <strong>التقرير السنوي التفاعلي</strong>
         </div>
       </header>
 
       <div id="stage" class="stage">
-        <section class="slide hero" data-slide data-section="الغلاف">
+        <section class="slide hero" data-slide data-section="الغلاف" data-chapter="افتتاح التقرير">
           <div class="hero-bg" id="heroBg"></div>
           <div class="hero-shade"></div>
           <div class="hero-content">
@@ -44,10 +54,14 @@
             <p>عرض تنفيذي تفاعلي يبرز حجم البرامج والأنشطة، مجالاتها الرئيسة، والفئات المستهدفة خلال عام 1447هـ.</p>
             <button id="startBtn" class="primary-action">ابدأ العرض</button>
           </div>
+          <div class="hero-identity" aria-hidden="true">
+            <span>KAU</span>
+            <b>عمادة شؤون الطلاب</b>
+          </div>
           <div class="hero-stats" id="heroStats"></div>
         </section>
 
-        <section class="slide" data-slide data-section="المؤشرات">
+        <section class="slide" data-slide data-section="المؤشرات" data-chapter="قراءة المؤشرات">
           <div class="slide-head">
             <span>ملخص تنفيذي</span>
             <h2>الصورة العامة لبرامج وأنشطة العمادة</h2>
@@ -59,7 +73,7 @@
           </div>
         </section>
 
-        <section class="slide" data-slide data-section="قراءة الأرقام">
+        <section class="slide" data-slide data-section="قراءة الأرقام" data-chapter="قراءة المؤشرات">
           <div class="slide-head">
             <span>تحليل رقمي</span>
             <h2>قراءة تنفيذية لأبرز المؤشرات</h2>
@@ -84,7 +98,7 @@
           </div>
         </section>
 
-        <section class="slide" data-slide data-section="المجالات">
+        <section class="slide" data-slide data-section="المجالات" data-chapter="تحليل المجالات والفئات">
           <div class="slide-head">
             <span>تحليل المجالات</span>
             <h2>أكثر المجالات حضورًا في التقرير</h2>
@@ -97,7 +111,7 @@
           </div>
         </section>
 
-        <section class="slide" data-slide data-section="الفئات المستهدفة">
+        <section class="slide" data-slide data-section="الفئات المستهدفة" data-chapter="تحليل المجالات والفئات">
           <div class="slide-head">
             <span>الفئات المستهدفة</span>
             <h2>توزيع البرامج والأنشطة حسب الفئة المستهدفة</h2>
@@ -110,7 +124,7 @@
           </div>
         </section>
 
-        <section class="slide" data-slide data-section="التوزيع الزمني">
+        <section class="slide" data-slide data-section="التوزيع الزمني" data-chapter="تحليل المجالات والفئات">
           <div class="slide-head">
             <span>الحضور الزمني</span>
             <h2>توزيع البرامج والأنشطة على أشهر العام</h2>
@@ -123,7 +137,7 @@
 
         
 
-        <section class="slide" data-slide data-section="قائمة البرامج">
+        <section class="slide" data-slide data-section="قائمة البرامج" data-chapter="التفاصيل">
           <div class="slide-head">
             <span>تفاصيل البرامج والأنشطة</span>
             <h2>قائمة البرامج والأنشطة القابلة للبحث والتصفية</h2>
@@ -150,7 +164,7 @@
           </div>
         </section>
 
-        <section class="slide closing" data-slide data-section="الختام">
+        <section class="slide closing" data-slide data-section="الختام" data-chapter="الختام">
           <div class="closing-card">
             <div class="closing-logo">
               <span class="brand-fallback" aria-hidden="true">KAU</span>

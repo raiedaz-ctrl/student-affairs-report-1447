@@ -2,6 +2,7 @@ const data = window.REPORT_DATA || {};
 const slides = [...document.querySelectorAll("[data-slide]")];
 const nav = document.getElementById("nav");
 const stage = document.getElementById("stage");
+const chapterName = document.getElementById("chapterName");
 const sectionName = document.getElementById("sectionName");
 const progress = document.getElementById("progress");
 const currentSlide = document.getElementById("currentSlide");
@@ -80,12 +81,17 @@ function setHero() {
 
 function buildNav() {
   totalSlides.textContent = slides.length;
-  nav.innerHTML = slides.map((slide, i) => `
-    <button type="button" data-go="${i}">
-      <span>${escapeHtml(slide.dataset.section)}</span>
-      <span class="num">${i + 1}</span>
-    </button>
-  `).join("");
+  let lastChapter = "";
+  nav.innerHTML = slides.map((slide, i) => {
+    const chapter = slide.dataset.chapter || "التقرير";
+    const chapterLabel = chapter !== lastChapter ? `<div class="nav-chapter">${escapeHtml(chapter)}</div>` : "";
+    lastChapter = chapter;
+    return `${chapterLabel}
+      <button type="button" data-go="${i}">
+        <span>${escapeHtml(slide.dataset.section)}</span>
+        <span class="num">${i + 1}</span>
+      </button>`;
+  }).join("");
   nav.addEventListener("click", (event) => {
     const button = event.target.closest("[data-go]");
     if (button) {
@@ -342,6 +348,7 @@ function go(index) {
   slides.forEach((slide, i) => slide.classList.toggle("active", i === active));
   [...nav.querySelectorAll("button")].forEach((button, i) => button.classList.toggle("active", i === active));
   currentSlide.textContent = active + 1;
+  chapterName.textContent = slides[active].dataset.chapter || "";
   sectionName.textContent = slides[active].dataset.section;
   progress.style.width = `${((active + 1) / slides.length) * 100}%`;
   stage.scrollTop = 0;
