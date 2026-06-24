@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>التقرير التفاعلي لبرامج وأنشطة عمادة شؤون الطلاب 1447هـ</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app" class="app">
+    <aside id="rail" class="rail" data-open="1">
+      <div class="brand">
+        <div class="brand-mark">
+          <img data-logo src="assets/kau-logo.png" alt="شعار جامعة الملك عبدالعزيز">
+          <span class="brand-fallback" aria-hidden="true">KAU</span>
+        </div>
+        <div>
+          <strong>جامعة الملك عبدالعزيز</strong>
+          <span>عمادة شؤون الطلاب</span>
+        </div>
+      </div>
+      <nav id="nav" class="nav" aria-label="أقسام التقرير"></nav>
+      <div class="rail-note">
+        <span>نطاق التقرير</span>
+        <b>برامج وأنشطة 1447هـ</b>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="railToggle" class="icon-button" aria-label="فتح وإغلاق القائمة">☰</button>
+        <div>
+          <span id="sectionName" class="section-name"></span>
+          <b>التقرير السنوي التفاعلي</b>
+        </div>
+      </header>
+
+      <div id="stage" class="stage">
+        <section class="slide hero" data-slide data-section="الغلاف">
+          <div class="hero-bg" id="heroBg"></div>
+          <div class="hero-shade"></div>
+          <div class="hero-content">
+            <div class="hero-kicker">جامعة الملك عبدالعزيز</div>
+            <h1>برامج وأنشطة عمادة شؤون الطلاب 1447هـ</h1>
+            <p>عرض تنفيذي تفاعلي يبرز حجم البرامج والأنشطة، مجالاتها الرئيسة، والفئات المستهدفة خلال عام 1447هـ.</p>
+            <button id="startBtn" class="primary-action">ابدأ العرض</button>
+          </div>
+          <div class="hero-stats" id="heroStats"></div>
+        </section>
+
+        <section class="slide" data-slide data-section="المؤشرات">
+          <div class="slide-head">
+            <span>ملخص تنفيذي</span>
+            <h2>الصورة العامة لبرامج وأنشطة العمادة</h2>
+          </div>
+          <div id="kpiGrid" class="kpi-grid"></div>
+          <div class="insight-band">
+            <b>قراءة سريعة</b>
+            <p id="executiveInsight"></p>
+          </div>
+        </section>
+
+        <section class="slide" data-slide data-section="قراءة الأرقام">
+          <div class="slide-head">
+            <span>تحليل رقمي</span>
+            <h2>قراءة تنفيذية لأبرز المؤشرات</h2>
+          </div>
+          <div id="readingGrid" class="reading-grid"></div>
+          <div class="analysis-layout">
+            <div class="panel">
+              <div class="panel-title">
+                <span>ماذا تعني الأرقام؟</span>
+                <b>قراءة مختصرة</b>
+              </div>
+              <div id="numberNarrative" class="number-narrative"></div>
+            </div>
+            <div class="panel source-panel">
+              <div class="panel-title">
+                <span>منهجية العرض</span>
+                <b>مؤشرات موجزة</b>
+              </div>
+              <p id="sourceRule"></p>
+              <div id="sourceChecks" class="source-checks"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide data-section="مجالات النشاط">
+          <div class="slide-head">
+            <span>تحليل المجالات</span>
+            <h2>أكثر مجالات النشاط حضورًا في التقرير</h2>
+          </div>
+          <div class="split">
+            <div class="panel" id="categoryBars"></div>
+            <div class="panel chart-panel">
+              <canvas id="categoryChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide data-section="الفئات المستهدفة">
+          <div class="slide-head">
+            <span>الفئات المستهدفة</span>
+            <h2>توزيع البرامج والأنشطة حسب الفئة المستهدفة</h2>
+          </div>
+          <div class="split">
+            <div class="panel" id="targetBars"></div>
+            <div class="panel chart-panel">
+              <canvas id="targetChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="slide" data-slide data-section="التوزيع الزمني">
+          <div class="slide-head">
+            <span>الحضور الزمني</span>
+            <h2>توزيع البرامج والأنشطة على أشهر العام</h2>
+          </div>
+          <div class="panel timeline-panel">
+            <div id="monthTimeline" class="month-timeline"></div>
+          </div>
+          <div class="mini-grid" id="monthHighlights"></div>
+        </section>
+
+        
+
+        <section class="slide" data-slide data-section="قائمة البرامج">
+          <div class="slide-head">
+            <span>تفاصيل البرامج والأنشطة</span>
+            <h2>قائمة البرامج والأنشطة القابلة للبحث والتصفية</h2>
+          </div>
+          <div class="table-tools">
+            <input id="searchInput" type="search" placeholder="ابحث باسم برنامج أو نشاط أو مجال أو تفاصيل">
+            <select id="categoryFilter" aria-label="تصفية حسب مجال النشاط"></select>
+            <select id="targetFilter" aria-label="تصفية حسب الفئة المستهدفة"></select>
+          </div>
+          <div id="tableSummary" class="table-summary"></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>التاريخ</th>
+                  <th>الاسم الموحد</th>
+                  <th>مجال النشاط</th>
+                  <th>الفئة المستهدفة</th>
+                  <th>رابط التوثيق</th>
+                </tr>
+              </thead>
+              <tbody id="eventsBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="slide closing" data-slide data-section="الختام">
+          <div class="closing-card">
+            <div class="closing-logo">
+              <img data-logo src="assets/kau-logo.png" alt="شعار جامعة الملك عبدالعزيز">
+              <span class="brand-fallback" aria-hidden="true">KAU</span>
+            </div>
+            <h2>خلاصة للقارئ</h2>
+            <p id="closingReading"></p>
+            <span>عمادة شؤون الطلاب | جامعة الملك عبدالعزيز | 1447هـ</span>
+          </div>
+        </section>
+      </div>
+
+      <footer class="footer">
+        <div class="progress"><span id="progress"></span></div>
+        <button id="prevBtn">السابق</button>
+        <div class="counter"><span id="currentSlide">1</span> / <span id="totalSlides">1</span></div>
+        <button id="nextBtn">التالي</button>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      const version = "20260624-detail-sheet-v3";
+      function loadScript(src, fallback) {
+        return new Promise((resolve) => {
+          const script = document.createElement("script");
+          script.src = src;
+          script.onload = resolve;
+          script.onerror = () => {
+            if (!fallback) return resolve();
+            const backup = document.createElement("script");
+            backup.src = fallback;
+            backup.onload = resolve;
+            backup.onerror = resolve;
+            document.body.appendChild(backup);
+          };
+          document.body.appendChild(script);
+        });
+      }
+      loadScript("vendor/chart.js", "https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js")
+        .then(() => loadScript("vendor/chartjs-plugin-datalabels.js", "https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"))
+        .then(() => loadScript(`data.js?v=${version}`))
+        .then(() => loadScript(`app.js?v=${version}`));
+    })();
+  </script>
+</body>
+</html>
