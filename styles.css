@@ -68,14 +68,14 @@ button { cursor: pointer; }
 }
 .brand img { width: 43px; }
 .brand-fallback {
-  display: none;
+  display: block;
   color: var(--g7);
   font-weight: 900;
   letter-spacing: 0;
   font-size: 16px;
 }
-.logo-fallback-active .brand-fallback { display: block; }
-.logo-fallback-active {
+.brand-mark,
+.closing-logo {
   border: 1px solid rgba(26, 122, 65, .16);
   background: linear-gradient(135deg, #fff, #e7f2eb);
 }
@@ -610,11 +610,6 @@ td small { display: block; color: var(--slate); margin-top: 4px; }
   display: grid;
   place-items: center;
   margin: 0 auto;
-}
-.closing-logo img {
-  width: 68px;
-  height: 68px;
-  object-fit: contain;
 }
 .closing-logo .brand-fallback {
   font-size: 22px;

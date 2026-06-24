@@ -63,29 +63,6 @@ function encodeAssetPath(src) {
   return src.split("/").map((part, index) => index === 0 ? part : encodeURIComponent(part)).join("/");
 }
 
-function setupLogoFallbacks() {
-  const candidates = [
-    "assets/kau-logo.png",
-    "assets/kau-logo.jpg",
-    "assets/logo.png",
-    "assets/logo.jpg",
-    "kau-logo.png",
-    "logo.png",
-  ];
-  document.querySelectorAll("[data-logo]").forEach((img) => {
-    let index = 0;
-    img.addEventListener("error", () => {
-      index += 1;
-      if (index < candidates.length) {
-        img.src = candidates[index];
-        return;
-      }
-      img.hidden = true;
-      img.closest(".brand-mark, .closing-logo")?.classList.add("logo-fallback-active");
-    });
-  });
-}
-
 function topMonth() {
   return [...(data.months || [])].sort((a, b) => b.count - a.count)[0] || { name: "-", count: 0 };
 }
@@ -137,6 +114,8 @@ function buildNumberReading() {
   const total = data.totals?.displayedRecords || 0;
   const topCategory = data.categories?.[0] || { name: "-", count: 0 };
   const secondCategory = data.categories?.[1] || { name: "-", count: 0 };
+  const thirdCategory = data.categories?.[2] || { name: "-", count: 0 };
+  const fourthCategory = data.categories?.[3] || { name: "-", count: 0 };
   const topTarget = data.targets?.[0] || { name: "-", count: 0 };
   const month = topMonth();
   const cards = [
@@ -157,7 +136,7 @@ function buildNumberReading() {
   `).join("");
   document.getElementById("numberNarrative").innerHTML = `
     <p>توضح الأرقام أن العمادة قدمت حراكًا واسعًا ومتنوعًا، لا يقتصر على نوع واحد من البرامج، بل يمتد بين المسارات الرياضية، التدريبية، الثقافية، التطوعية، والفعاليات العامة.</p>
-    <p>الثقل الأكبر يظهر في <b>${escapeHtml(categoryName(topCategory.name))}</b> بعدد ${numberText(topCategory.count)}، ويليه <b>${escapeHtml(categoryName(secondCategory.name))}</b> بعدد ${numberText(secondCategory.count)}. هذا التقارب يعطي التقرير نقطة نقاش قوية: النشاط الرياضي حاضر بقوة، والتدريب الطلابي حاضر بقوة قريبة.</p>
+    <p>الثقل الأكبر يظهر في <b>${escapeHtml(categoryName(topCategory.name))}</b> بعدد ${numberText(topCategory.count)}، ويليه <b>${escapeHtml(categoryName(secondCategory.name))}</b> بعدد ${numberText(secondCategory.count)}، ثم <b>${escapeHtml(categoryName(thirdCategory.name))}</b> بعدد ${numberText(thirdCategory.count)}، ثم <b>${escapeHtml(categoryName(fourthCategory.name))}</b> بعدد ${numberText(fourthCategory.count)}.</p>
     <p>الفئة المستهدفة الأوسع هي <b>${escapeHtml(topTarget.name)}</b> بعدد ${numberText(topTarget.count)}، وأعلى شهر نشاطًا هو <b>${escapeHtml(month.name)}</b> بعدد ${numberText(month.count)}.</p>
   `;
   document.getElementById("sourceRule").textContent = data.presentationNote || "تعرض المؤشرات صورة موجزة عن برامج وأنشطة العمادة خلال عام 1447هـ.";
@@ -165,7 +144,7 @@ function buildNumberReading() {
     ["فترة التقرير", "العام 1447هـ"],
     ["نطاق التاريخ", `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`],
     ["أيام النشر الفريدة", data.totals?.uniqueDays || 0],
-    ["أيام النشر", data.totals?.uniqueDays || 0],
+    ["مجالات النشاط", data.totals?.categories || 0],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><b>${numberText(value)}</b></div>`).join("");
 }
 
@@ -331,7 +310,7 @@ function buildClosingReading() {
   const topCategory = data.categories?.[0] || { name: "-", count: 0 };
   const secondCategory = data.categories?.[1] || { name: "-", count: 0 };
   document.getElementById("closingReading").textContent =
-    `يضع هذا التقرير أمام القارئ صورة مركزة عن برامج وأنشطة عمادة شؤون الطلاب خلال عام 1447هـ. تظهر الأرقام حجم النشاط وتنوع مجالاته، وتوضح الفئات المستهدفة، وتبين أين تركز الحضور خلال أشهر العام. ومن خلال المؤشرات والرسوم والقائمة التفصيلية، يمكن للقارئ تكوين فهم سريع لما تم تقديمه، وما المجالات والفئات التي كان لها الحضور الأبرز.`;
+    `يعرض هذا التقرير صورة مختصرة عن برامج وأنشطة عمادة شؤون الطلاب خلال عام 1447هـ. توضح الأرقام حجم ما تم تنفيذه، وتبين أكثر مجالات النشاط حضورًا، والفئات المستهدفة، وتوزيع البرامج والأنشطة خلال أشهر العام. ومن خلال المؤشرات والرسوم وقائمة البرامج، يستطيع القارئ تكوين فكرة واضحة وسريعة عن طبيعة الأنشطة وما برز منها خلال العام.`;
 }
 
 function animateNumbers(scope) {
@@ -415,7 +394,6 @@ function setupControls() {
   });
 }
 
-setupLogoFallbacks();
 setHero();
 buildNav();
 buildKpis();
