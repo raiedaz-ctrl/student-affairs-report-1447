@@ -135,7 +135,6 @@ function buildNumberReading() {
     { title: "الفئة الأبرز", value: topTarget.name, number: topTarget.count, text: "الفئة التي ظهر لها النصيب الأكبر من البرامج والأنشطة." },
     { title: "ذروة النشاط", value: month.name, number: month.count, text: "الشهر الأعلى في كثافة البرامج والأنشطة." },
     { title: "الفترة الزمنية", value: `${data.totals?.dateStart || "-"} إلى ${data.totals?.dateEnd || "-"}`, number: "", text: "النطاق الذي يغطيه التقرير." },
-    { title: "طريقة العرض", value: "بدون تكرار", number: "", text: "يعرض كل برنامج أو نشاط مرة واحدة في القائمة والمؤشرات." },
   ];
   document.getElementById("readingGrid").innerHTML = cards.map((card) => `
     <article class="reading-card">
