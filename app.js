@@ -69,13 +69,8 @@ function topMonth() {
 }
 
 function setHero() {
-  document.getElementById("heroBg").style.backgroundImage = "";
-  document.getElementById("heroStats").innerHTML = [
-    ["مدخل تنفيذي", "يعرض التقرير الصورة العامة أولًا."],
-    ["مؤشرات ورسوم", "تظهر الأرقام في صفحات التحليل."],
-    ["فصول واضحة", "انتقال مرتب بين الغلاف والتحليل والتفاصيل."],
-    ["قائمة تفصيلية", "بحث وتصفية للبرامج والأنشطة."],
-  ].map(([label, text]) => `<div class="hero-stat hero-note-card"><b>${label}</b><span>${text}</span></div>`).join("");
+  const heroBg = document.getElementById("heroBg");
+  if (heroBg) heroBg.style.backgroundImage = "";
 }
 
 function buildNav() {
